@@ -1,0 +1,2 @@
+# LocalizationSystem
+Unity Localization System
