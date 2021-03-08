@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6df1ab8dd3743e142a381e94c31d2028, type: 3}
+  m_Name: LocalizationData
+  m_EditorClassIdentifier: 
+  availableLangs: 0a000000220000000f0000000e0000002a000000
+  localizationKeys:
+  - key: MenuHello
+    value:
+    - key: 10
+      value: Hello!
+    - key: 34
+      value: "\xA1Hola!"
+    - key: 15
+      value: Hallo!
+    - key: 14
+      value: Bonjour!
+    - key: 42
+      value: "h\u0335\u0341\u030F\u0305\u0357\u030A\u0333\u0328\u0316\u0323\u0322\u0353\u0317\u0354\u0327\u0359\u0320\u0349e\u0334\u0351\u0311\u0358\u033F\u0326\u035Al\u0338\u0300\u0358\u0350\u0350\u031A\u0352\u0307\u0322\u034E\u0320\u0329l\u0334\u030A\u030E\u0304\u0316\u031F\u0317\u0325\u031E\u033B\u0320\u0354\u0320\u035Co\u0338\u030C\u030A\u0304\u034B\u034C\u035D\u034C\u033B\u0359"
+    shown: 1
+  - key: MenuGlitched
+    value:
+    - key: 10
+      value: 
+    - key: 34
+      value: 
+    - key: 15
+      value: 
+    - key: 14
+      value: 
+    - key: 42
+      value: Don't worry, that's intentional.
+    shown: 1

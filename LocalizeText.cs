@@ -8,6 +8,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using SimpleLocalization;
 
 public class LocalizeText : MonoBehaviour {
     [SerializeField]
