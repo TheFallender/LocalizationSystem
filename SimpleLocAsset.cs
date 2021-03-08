@@ -1,4 +1,4 @@
-﻿/*************************************
+/*************************************
  * ©   ©   ©   ©   ©   ©   ©   ©   © *
  * SimpleLocAsset.cs              *
  * Created by: TheFallender          *
@@ -22,7 +22,6 @@ public class SimpleLocAsset : ScriptableObject {
 public class LocalizationKey {
     public string key;
     public List<LangText> value;
-    public bool shown;
 
     public LocalizationKey (string _key, List<LangText> _value) {
         key = _key;
