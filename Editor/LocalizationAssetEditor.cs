@@ -1,4 +1,4 @@
-﻿/*************************************
+/*************************************
  * ©   ©   ©   ©   ©   ©   ©   ©   © *
  * LocalizationAssetEditor.cs        *
  * Created by: TheFallender          *
@@ -23,6 +23,7 @@ public class LocalizationAssetEditor : Editor {
 
     //Variables
     int locKeyAddIndexValue = 1;
+    System.Collections.Generic.List<bool> shownLocKeys;
 
     //When it gets enabled
     private void OnEnable () {
@@ -30,6 +31,7 @@ public class LocalizationAssetEditor : Editor {
         locSerialized = new SerializedObject(locAsset);             //Serialize the object for modification
         avlLangs = locSerialized.FindProperty("availableLangs");    //Set lang property
         locKeys = locSerialized.FindProperty("localizationKeys");   //Set localization keys property
+        shownLocKeys = new System.Collections.Generic.List<bool>(new bool[locAsset.localizationKeys.Count]);
     }
     
     //Whenever the GUI is being used
@@ -130,13 +132,12 @@ public class LocalizationAssetEditor : Editor {
                 SerializedProperty locKey = locKeys.GetArrayElementAtIndex(i);      //Get the element serialized
                 SerializedProperty key = locKey.FindPropertyRelative("key");        //Get the key of the localization key
                 SerializedProperty value = locKey.FindPropertyRelative("value");      //Get the key of the localization value
-                SerializedProperty shown = locKey.FindPropertyRelative("shown");    //Get the key of the localization value show status
 
                 //GUI Elements
                 EditorGUILayout.BeginHorizontal();  //Horizontal GUI - Begin
 
                 //Fold Out for the langs on each key
-                shown.boolValue = EditorGUILayout.Foldout(shown.boolValue, string.Format("\t{0}. Key:", i + 1), true);
+                shownLocKeys[i] = EditorGUILayout.Foldout(shownLocKeys[i], string.Format("\t{0}. Key:", i + 1), true);
 
                 //Property field for the key
                 EditorGUILayout.PropertyField(
@@ -148,6 +149,7 @@ public class LocalizationAssetEditor : Editor {
                 //Button to Delete the Localization Key
                 if (GUILayout.Button("x", GUILayout.ExpandWidth(false))) {
                     locKeys.DeleteArrayElementAtIndex(i);   //Delete the element
+                    shownLocKeys.RemoveAt(i);               //Delete shown val
                     locKeysCount--;                         //Reduce the number of localization keys
                     i--;                                    //Reduce i to iterate through the next key
                     EditorGUILayout.EndHorizontal();    //Horizontal GUI - End
@@ -157,7 +159,7 @@ public class LocalizationAssetEditor : Editor {
                 EditorGUILayout.EndHorizontal();    //Horizontal GUI - End
 
                 //Show the langs and each of the values
-                if (shown.boolValue) {
+                if (shownLocKeys[i]) {
                     for (int j = 0; j < value.arraySize; j++) {
                         SerializedProperty langText = value.GetArrayElementAtIndex(j);
                         SerializedProperty lang = langText.FindPropertyRelative("key");
@@ -190,17 +192,33 @@ public class LocalizationAssetEditor : Editor {
         bool locKeyAddButton = GUILayout.Button("Add New Key", GUILayout.ExpandWidth(false));
         bool locKeyAddIndexButton = GUILayout.Button("Add New Key at index", GUILayout.ExpandWidth(false));
         locKeyAddIndexValue = EditorGUILayout.IntField(locKeyAddIndexValue);
+        bool purgeWhitespaces = GUILayout.Button("Remove Spaces from Keys", GUILayout.ExpandWidth(false));
         EditorGUILayout.EndHorizontal();    //Horizontal GUI - End
 
         //Option to add the localization key
-        if (locKeyAddButton)
+        if (locKeyAddButton) {
             locAsset.localizationKeys.Add(new LocalizationKey("", locAsset.availableLangs));
+            shownLocKeys.Add(false);
+        }
         //Option to add the localization key at an specific index
         if (locKeyAddIndexButton) {
-            if (locKeyAddIndexValue > 0 && locKeyAddIndexValue < locKeysCount)
+            if (locKeyAddIndexValue > 0 && locKeyAddIndexValue < locKeysCount) {
                 locAsset.localizationKeys.Insert(locKeyAddIndexValue - 1, new LocalizationKey("", locAsset.availableLangs));
-            else
+                shownLocKeys.Insert(locKeyAddIndexValue - 1, false);
+            } else
                 Debug.LogError("ERROR - Index must be positive and less than the size of the keys.");
+        }
+        //Clean all the whitespaces in the keys, as they should be clean
+        if (purgeWhitespaces) {
+            System.Text.RegularExpressions.Regex rgxCleaner = new System.Text.RegularExpressions.Regex(@"\s+");
+            for (int i = 0; i < locKeysCount; i++) {
+                //Serialized Properties
+                SerializedProperty locKey = locKeys.GetArrayElementAtIndex(i);      //Get the element serialized
+                SerializedProperty key = locKey.FindPropertyRelative("key");        //Get the key of the localization key
+
+                //Clean the whitespaces
+                key.stringValue = rgxCleaner.Replace(key.stringValue, "");
+            }
         }
 
         //Apply modifications
