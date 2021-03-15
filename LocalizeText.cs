@@ -19,17 +19,17 @@ public class LocalizeText : MonoBehaviour {
     private void Start () {
         if (textToLocalize == null)
             textToLocalize = GetComponent<Text>();
-        SimpleLocalization.Instance.OnLanguageChanged += Localize;
-        Localize(SimpleLocalization.Instance.CurrentLang);
+        LocalizationSystem.Instance.OnLanguageChanged += Localize;
+        Localize(LocalizationSystem.Instance.CurrentLang);
     }
 
     private void OnDestroy () {
-        SimpleLocalization.Instance.OnLanguageChanged -= Localize;
+        LocalizationSystem.Instance.OnLanguageChanged -= Localize;
     }
 
     private void Localize (SimpleLocalizationLangs language) {
         LocalizationKey tempKey =
-            SimpleLocalization.Instance.LocAsset.localizationKeys.Find(
+            LocalizationSystem.Instance.LocAsset.localizationKeys.Find(
                 elem => elem.key == keyLocalization
             );
 
