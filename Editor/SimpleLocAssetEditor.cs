@@ -55,6 +55,9 @@ public class SimpleLocAssetEditor : Editor {
 
         //Show the Localization Keys and the settings
         LocalizationKeysShow();
+
+        //Apply modifications
+        locSerialized.ApplyModifiedProperties();
     }
 
     //Language show
@@ -80,9 +83,10 @@ public class SimpleLocAssetEditor : Editor {
 
                 //PopUp Selector
                 lang.enumValueIndex = (int) (SimpleLocalizationLangs) EditorGUILayout.EnumPopup(         //Enum PopUp, needs casting
-                    string.Format("\t{0}. {1}: ", i + 1, (SimpleLocalizationLangs) lang.intValue),  //Label
+                    string.Format("\t{0}. {1}: ", i + 1, (SimpleLocalizationLangs) lang.intValue),       //Label the language
                     (SimpleLocalizationLangs) lang.enumValueIndex                                        //Selected value
                 );
+
                 //Button to Delete the language
                 if (GUILayout.Button("x", GUILayout.ExpandWidth(false))) {
                     avlLangs.DeleteArrayElementAtIndex(i);  //Delete the element
@@ -228,9 +232,6 @@ public class SimpleLocAssetEditor : Editor {
         //Fold Out for the langs on each key
         openKeyLocsSettings = EditorGUILayout.Foldout(openKeyLocsSettings, "    Settings:", true);
         if (openKeyLocsSettings) {
-            //Variable to log wether it has been updated
-            bool localizationKeysChanged = false;
-
             //Add Localization Key
             {
                 //Buttons to add key
@@ -240,7 +241,7 @@ public class SimpleLocAssetEditor : Editor {
                 if (settingsNewLocKey) {
                     locAsset.localizationKeys.Add(new LocalizationKey("", locAsset.availableLangs));
                     shownLocKeys.Add(false);
-                    localizationKeysChanged = true;
+                    locSerialized.ApplyModifiedProperties();
                 }
             }
 
@@ -255,18 +256,11 @@ public class SimpleLocAssetEditor : Editor {
                 //Localization Keys Add
                 if (settingsNewLocKeys) {
                     //Add the localization keys empty
-                    locAsset.localizationKeys.AddRange(
-                        System.Linq.Enumerable.Repeat(
-                            new LocalizationKey("", locAsset.availableLangs),
-                            settingsAddKeysNumber)
-                    );
-                    //Update the shown bool values
-                    shownLocKeys.AddRange(
-                        System.Linq.Enumerable.Repeat(
-                            false,
-                            settingsAddKeysNumber)
-                    );
-                    localizationKeysChanged = true;
+                    for (int i = 0; i < settingsAddKeysNumber; i++) {
+                        locAsset.localizationKeys.Add(new LocalizationKey("", locAsset.availableLangs));
+                        shownLocKeys.Add(false);
+                    }
+                    locSerialized.ApplyModifiedProperties();
                 }
             }
 
@@ -283,7 +277,7 @@ public class SimpleLocAssetEditor : Editor {
                     if (settingsAddKeyAtIndex > 0 && settingsAddKeyAtIndex < locKeysCount) {
                         locAsset.localizationKeys.Insert(settingsAddKeyAtIndex - 1, new LocalizationKey("", locAsset.availableLangs));
                         shownLocKeys.Insert(settingsAddKeyAtIndex - 1, false);
-                        localizationKeysChanged = true;
+                        locSerialized.ApplyModifiedProperties();
                     } else
                         Debug.LogError("ERROR - Index must be positive and less than the size of the keys.");
                 }
@@ -299,9 +293,11 @@ public class SimpleLocAssetEditor : Editor {
                 //Add multiple localization keys at an specific index
                 if (settingsNewLocKeysAtIndex) {
                     if (settingsAddKeysAtIndex > 0 && settingsAddKeysAtIndex < locKeysCount) {
-                        locAsset.localizationKeys.InsertRange(settingsAddKeysAtIndex - 1, System.Linq.Enumerable.Repeat(new LocalizationKey("", locAsset.availableLangs), settingsAddKeysAtIndexNumber));
-                        shownLocKeys.InsertRange(settingsAddKeysAtIndex - 1, System.Linq.Enumerable.Repeat(false, settingsAddKeysAtIndexNumber));
-                        localizationKeysChanged = true;
+                        for (int i = 0; i < settingsAddKeysAtIndexNumber; i++) {
+                            locAsset.localizationKeys.Insert(settingsAddKeysAtIndex - 1, new LocalizationKey("", locAsset.availableLangs));
+                            shownLocKeys.Insert(settingsAddKeysAtIndex - 1, false);
+                        }
+                        locSerialized.ApplyModifiedProperties();
                     } else
                         Debug.LogError("ERROR - Index must be positive and less than the size of the keys.");
                 }
@@ -326,7 +322,7 @@ public class SimpleLocAssetEditor : Editor {
                         key.stringValue = rgxCleaner.Replace(key.stringValue, "");
                     }
 
-                    localizationKeysChanged = true;
+                    locSerialized.ApplyModifiedProperties();
                 }
             }
 
@@ -353,14 +349,9 @@ public class SimpleLocAssetEditor : Editor {
                         }
                     }
 
-                    localizationKeysChanged = true;
+                    locSerialized.ApplyModifiedProperties();
                 }
             }
-
-
-            //Apply modifications
-            if (localizationKeysChanged)
-                locSerialized.ApplyModifiedProperties();
         }
 
         //Padding
