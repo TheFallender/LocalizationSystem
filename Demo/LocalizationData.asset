@@ -26,7 +26,6 @@ MonoBehaviour:
       value: Bonjour!
     - key: 42
       value: "h\u0335\u0341\u030F\u0305\u0357\u030A\u0333\u0328\u0316\u0323\u0322\u0353\u0317\u0354\u0327\u0359\u0320\u0349e\u0334\u0351\u0311\u0358\u033F\u0326\u035Al\u0338\u0300\u0358\u0350\u0350\u031A\u0352\u0307\u0322\u034E\u0320\u0329l\u0334\u030A\u030E\u0304\u0316\u031F\u0317\u0325\u031E\u033B\u0320\u0354\u0320\u035Co\u0338\u030C\u030A\u0304\u034B\u034C\u035D\u034C\u033B\u0359"
-    shown: 1
   - key: MenuGlitched
     value:
     - key: 10
@@ -39,4 +38,15 @@ MonoBehaviour:
       value: 
     - key: 42
       value: Don't worry, that's intentional.
-    shown: 1
+  - key: NotSetted
+    value:
+    - key: 10
+      value: 
+    - key: 34
+      value: 
+    - key: 15
+      value: 
+    - key: 14
+      value: 
+    - key: 42
+      value: 

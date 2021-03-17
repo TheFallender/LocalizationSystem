@@ -173,8 +173,35 @@ public class SimpleLocAssetEditor : Editor {
                 //GUI Elements
                 EditorGUILayout.BeginHorizontal();
 
+
+                //Detect how many keys are missing
+                string foldoutText = "";
+                for (int j = 0, missingKeys = 0; j < value.arraySize; j++) {
+                    //Presets
+                    SerializedProperty langText = value.GetArrayElementAtIndex(j);
+                    SerializedProperty text = langText.FindPropertyRelative("value");
+
+                    //If it's empty, add it to the missing keys
+                    if (string.IsNullOrEmpty(text.stringValue))
+                        missingKeys++;      //Missing Keys add 
+
+                    //Last iteration
+                    if (j + 1 == value.arraySize) {
+                        if (missingKeys == 0) {                         //If there are no missing keys, set the default text
+                            foldoutText = string.Format("\t{0}. Key:", i + 1);
+                        } else if (missingKeys < value.arraySize) {     //If some keys are missing, set the missing text
+                            foldoutText = string.Format("\t{0}. Key: (Missing)", i + 1);
+                            GUI.contentColor = Color.yellow;
+                        } else {                                        //If all of the keys are missings, set undefined text
+                            foldoutText = string.Format("\t{0}. Key: (Undefined)", i + 1);
+                            GUI.contentColor = Color.red;
+                        }
+                    }
+                }
+
                 //Fold Out for the langs on each key
-                shownLocKeys[i] = EditorGUILayout.Foldout(shownLocKeys[i], string.Format("\t{0}. Key:", i + 1), true);
+                shownLocKeys[i] = EditorGUILayout.Foldout(shownLocKeys[i], foldoutText, true);
+                GUI.contentColor = Color.white; //Reset the color
 
                 //Property field for the key
                 EditorGUILayout.PropertyField(
