@@ -168,7 +168,7 @@ public class SimpleLocAssetEditor : Editor {
                 //Serialized Properties
                 SerializedProperty locKey = locKeys.GetArrayElementAtIndex(i);      //Get the element serialized
                 SerializedProperty key = locKey.FindPropertyRelative("key");        //Get the key of the localization key
-                SerializedProperty value = locKey.FindPropertyRelative("value");      //Get the key of the localization value
+                SerializedProperty value = locKey.FindPropertyRelative("value");    //Get the key of the localization value
 
                 //GUI Elements
                 EditorGUILayout.BeginHorizontal();
