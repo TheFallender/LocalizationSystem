@@ -30,6 +30,9 @@ namespace SimpleLocalization {
                 return Instance.locAsset;
             }
         }
+        public void SetLocAsset (SimpleLocAsset asset) {
+            locAsset = asset;
+        }
 
         //Current language
         private SimpleLocalizationLangs currentLang = SimpleLocalizationLangs.English;
@@ -57,18 +60,24 @@ namespace SimpleLocalization {
 
         //Event call: Language String
         public virtual void ChangeLanguage (string language) {
-            currentLang = (SimpleLocalizationLangs) System.Enum.Parse(
-                typeof(SimpleLocalizationLangs),
-                language
-            );
+            currentLang = String2Lang(language);
             OnLanguageChanged?.Invoke(currentLang);
         }
 
         //Event call: Language Index Position in available langs
         public virtual void ChangeLanguage (int languageIndex) {
             currentLang = LocAsset.availableLangs[languageIndex];
-
             OnLanguageChanged?.Invoke(currentLang);
+        }
+
+
+        //String to SimpleLocalizationLangs
+        public static SimpleLocalizationLangs String2Lang (string lang) {
+            return (SimpleLocalizationLangs) System.Enum.Parse(
+                    typeof(SimpleLocalizationLangs),
+                    lang,
+                    true
+            );
         }
     }
 }
