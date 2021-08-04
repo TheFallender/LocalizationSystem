@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6df1ab8dd3743e142a381e94c31d2028, type: 3}
+  m_Script: {fileID: 11500000, guid: 471e9ce6cda62474aa9bf707ecab141c, type: 3}
   m_Name: LocalizationData
   m_EditorClassIdentifier: 
   availableLangs: 0a000000220000000f0000000e0000002a000000

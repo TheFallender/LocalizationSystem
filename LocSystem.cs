@@ -1,6 +1,6 @@
 ﻿/*************************************
  * ©   ©   ©   ©   ©   ©   ©   ©   © *
- * LocalizationSystem.cs             *
+ * LocSystem.cs                      *
  * Created by: TheFallender          *
  * Created on: 27/02/2021 (dd/mm/yy) *
  * ©   ©   ©   ©   ©   ©   ©   ©   © *
@@ -8,35 +8,35 @@
 
 using UnityEngine;
 
-namespace SimpleLocalization {
-    public class LocalizationSystem : MonoBehaviour {
+namespace UniLoc {
+    public class LocSystem : MonoBehaviour {
         //Instance
-        private static LocalizationSystem instance = null;
-        public static LocalizationSystem Instance {
+        private static LocSystem instance = null;
+        public static LocSystem Instance {
             get {
                 return instance;
             }
         }
 
         //Event
-        public delegate void LanguageChangeEvent (SimpleLocalizationLangs language);
+        public delegate void LanguageChangeEvent (UniLocLangs language);
         public LanguageChangeEvent OnLanguageChanged;
 
         //Language Asset
         [SerializeField]
-        private SimpleLocAsset locAsset;
-        public SimpleLocAsset LocAsset {
+        private LocAsset locAsset;
+        public LocAsset LocAsset {
             get {
                 return Instance.locAsset;
             }
         }
-        public void SetLocAsset (SimpleLocAsset asset) {
+        public void SetLocAsset (LocAsset asset) {
             locAsset = asset;
         }
 
         //Current language
-        private SimpleLocalizationLangs currentLang = SimpleLocalizationLangs.English;
-        public SimpleLocalizationLangs CurrentLang {
+        private UniLocLangs currentLang = UniLocLangs.English;
+        public UniLocLangs CurrentLang {
             get {
                 return Instance.currentLang;
             }
@@ -53,7 +53,7 @@ namespace SimpleLocalization {
         }
 
         //Event call: Language Enum
-        public virtual void ChangeLanguage (SimpleLocalizationLangs language) {
+        public virtual void ChangeLanguage (UniLocLangs language) {
             currentLang = language;
             OnLanguageChanged?.Invoke(currentLang);
         }
@@ -71,10 +71,10 @@ namespace SimpleLocalization {
         }
 
 
-        //String to SimpleLocalizationLangs
-        public static SimpleLocalizationLangs String2Lang (string lang) {
-            return (SimpleLocalizationLangs) System.Enum.Parse(
-                    typeof(SimpleLocalizationLangs),
+        //String to UniLocLangs
+        public static UniLocLangs String2Lang (string lang) {
+            return (UniLocLangs) System.Enum.Parse(
+                    typeof(UniLocLangs),
                     lang,
                     true
             );

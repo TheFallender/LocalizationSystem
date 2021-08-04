@@ -229,7 +229,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Simple Localization Demo
+  m_Text: Universal Localization Demo
 --- !u!222 &260658904
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1632,7 +1632,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Here you will be able to see how Simple Localization works, try changing
+  m_Text: Here you will be able to see how Universal Localization works, try changing
     the selected language to see the effects on the text below.
 --- !u!222 &1455552961
 CanvasRenderer:
@@ -2286,7 +2286,7 @@ GameObject:
   - component: {fileID: 2097573238}
   - component: {fileID: 2097573237}
   m_Layer: 0
-  m_Name: SimpleLocalization
+  m_Name: UniversalLocalization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
